@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Practical Task 3: Timed Shapes</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <style>
+      #container {
+        padding: 20px;
+        background-color: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+
+    <script type="text/babel">
+      class Shape extends React.Component {
+        constructor(props) {
+          super(props);
+
+          this.state = {
+            bgColor: randColor(),
+            size: 100,
+            perCent: "50%",
+          };
+
+          this.timerTick = this.timerTick.bind(this);
+        }
+
+        // functions that change the values of the states below
+
+        componentDidMount() {
+          setInterval(this.timerTick, 1000);
+        }
+
+        timerTick() {
+          this.setState((prevState) => {
+            return {
+              bgColor: randColor(),
+              size: randNum(124),
+              perCent: randNum(100),
+            };
+          });
+        }
+
+        render() {
+          // style variable
+
+          var shapeStyle = {
+            padding: 20,
+            margin: 20,
+            display: "inline-block",
+            backgroundColor: this.state.bgColor,
+            borderRadius: this.state.perCent,
+            width: this.state.size,
+            height: this.state.size,
+          };
+
+          return <div style={shapeStyle}></div>;
+        }
+      }
+
+      // Colours array
+
+      let colors = [
+        "#77b3d1",
+        "#E94F37",
+        "#1C89BF",
+        "#A1D363",
+        "#85FFC7",
+        "#297373",
+        "#FF8552",
+        "#A40E4C",
+        "#85AFC0",
+        "#296573",
+        "#AA8552",
+        "#CC0E4C",
+        "#567187",
+        "#c6c976",
+        "#967c64",
+        "#e497ed",
+        "#d24cff",
+        "#e2ceb1",
+        "#cc999e",
+        "#97bf9a",
+      ];
+
+      // Random value functions below.
+
+      const randColor = () => {
+        return colors[Math.floor(Math.random() * colors.length)];
+      };
+
+      const randNum = (num) => {
+        return Math.floor(Math.random() * num) + 1;
+      };
+
+      // For loop belwo adding 60 shapes to div.
+
+      let renderData = [];
+      for (let i = 0; i <= 60; i++) {
+        renderData.push(<Shape key={i} />);
+      }
+
+      ReactDOM.render(
+        <div>{renderData}</div>,
+        document.querySelector("#container")
+      );
+    </script>
+  </body>
+</html>
